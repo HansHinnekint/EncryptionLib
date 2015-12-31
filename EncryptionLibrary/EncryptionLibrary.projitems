@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>d6c2a3b0-ac62-4894-b7c4-e29059ac7517</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>EncryptionLibrary</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DateTimeGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfoBlock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfoBlockConvertor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OTPAuthenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StringEncryptor.cs" />
+  </ItemGroup>
+</Project>
