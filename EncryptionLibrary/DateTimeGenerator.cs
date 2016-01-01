@@ -15,8 +15,9 @@ namespace EncryptionLibrary
 {
     public class DateTimeGenerator
     {
+#if WINDOWS_UWP
         private TaskCompletionSource<DateTime> myResultCompletionSource;
-
+#endif
         private static DateTimeGenerator myInstance;
 
         //-------------------------------------------------------------------------------------------------
@@ -40,7 +41,9 @@ namespace EncryptionLibrary
         //-------------------------------------------------------------------------------------------------
         private DateTimeGenerator()
         {
+#if WINDOWS_UWP
             myResultCompletionSource = null;
+#endif 
         }       
         
         //-------------------------------------------------------------------------------------------------
@@ -84,13 +87,25 @@ namespace EncryptionLibrary
                 //NTP uses UDP
                 var mySocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
-                mySocket.Connect(myIPEndPoint);
+                await Task.Run(() =>
+                    {
+                        mySocket.Connect(myIPEndPoint);
 
-                //Stops code hang if NTP is blocked
-                mySocket.ReceiveTimeout = 3000;
+                        //Stops code hang if NTP is blocked
+                        mySocket.ReceiveTimeout = 3000;
 
-                mySocket.Send(myNTPDataArray);
-                mySocket.Receive(myNTPDataArray);
+                        mySocket.Send(myNTPDataArray);
+                        mySocket.Receive(myNTPDataArray);
+
+                    }
+                );
+                //mySocket.Connect(myIPEndPoint);           
+
+                ////Stops code hang if NTP is blocked
+                //mySocket.ReceiveTimeout = 3000;
+
+                //mySocket.Send(myNTPDataArray);
+                //mySocket.Receive(myNTPDataArray);
                 mySocket.Close();
 #endif
                 TheNetworkTime = ParseNetworkTime(myNTPDataArray);
