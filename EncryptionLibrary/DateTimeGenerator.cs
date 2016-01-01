@@ -85,28 +85,21 @@ namespace EncryptionLibrary
                 //The UDP port number assigned to NTP is 123
                 var myIPEndPoint = new IPEndPoint(myAddresses[0], 123);
                 //NTP uses UDP
-                var mySocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                using (var mySocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp))
+                {
+                    await Task.Run(() =>
+                        {
+                            mySocket.Connect(myIPEndPoint);
 
-                await Task.Run(() =>
-                    {
-                        mySocket.Connect(myIPEndPoint);
+                            //Stops code hang if NTP is blocked
+                            mySocket.ReceiveTimeout = 3000;
 
-                        //Stops code hang if NTP is blocked
-                        mySocket.ReceiveTimeout = 3000;
-
-                        mySocket.Send(myNTPDataArray);
-                        mySocket.Receive(myNTPDataArray);
-
-                    }
-                );
-                //mySocket.Connect(myIPEndPoint);           
-
-                ////Stops code hang if NTP is blocked
-                //mySocket.ReceiveTimeout = 3000;
-
-                //mySocket.Send(myNTPDataArray);
-                //mySocket.Receive(myNTPDataArray);
-                mySocket.Close();
+                            mySocket.Send(myNTPDataArray);
+                            mySocket.Receive(myNTPDataArray);
+                        }
+                    );
+                    mySocket.Close();
+                }
 #endif
                 TheNetworkTime = ParseNetworkTime(myNTPDataArray);
             }
