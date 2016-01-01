@@ -41,8 +41,8 @@ namespace StringEncryptionUAPApp
             DateTimeGenerator myDTG;
             DateTime TheNetworkTime;
             DateTime TheLocalTime;
-
             TimeSpan span;
+
             myDTG = DateTimeGenerator.Instance;
 
             TheLocalTime = DateTime.UtcNow;
@@ -50,8 +50,10 @@ namespace StringEncryptionUAPApp
 
             span = TheNetworkTime.Subtract(TheLocalTime);
 
-            
+            textBox1.Text = TheLocalTime.ToString();
+            textBox2.Text = TheNetworkTime.ToString();
 
+            textBox3.Text = span.ToString();
         }
     }
 }

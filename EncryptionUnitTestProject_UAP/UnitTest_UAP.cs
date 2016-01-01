@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 using EncryptionLibrary;
 using EncryptionLibrary.Data;
 
-namespace EnvryptionUnitTestProject
+namespace EncryptionUnitTestProject_UAP
 {
     [TestClass]
-    public class UnitTest1
+    public class UnitTest_UAP
     {
         [TestMethod]
-        public void EncryptDecryptString()
+        public void UAP_EncryptDecryptString()
         {
             // Arrange
             var subject = StringEncryptor.Instance;
@@ -20,13 +20,13 @@ namespace EnvryptionUnitTestProject
             // Act
             var encryptedString1 = subject.Encrypt(originalString);
             var encryptedString2 = subject.Encrypt(originalString);
-            
+
             var decryptedString1 = subject.Decrypt(encryptedString1);
             var decryptedString2 = subject.Decrypt(encryptedString2);
 
             var encryptedString3 = subject.Encrypt(encryptedString2); // Double Encryption
             var decryptedString3 = subject.Decrypt(encryptedString3); // Still encrypted once
-            var decryptedString4 = subject.Decrypt(decryptedString3); 
+            var decryptedString4 = subject.Decrypt(decryptedString3);
 
 
             // Assert
@@ -39,7 +39,7 @@ namespace EnvryptionUnitTestProject
         }
 
         [TestMethod]
-        public void EncryptDecryptInfoBlock()
+        public void UAP_EncryptDecryptInfoBlock()
         {
             // Arrange
             InfoBlock InfoBlock01 = new InfoBlock();
@@ -60,7 +60,7 @@ namespace EnvryptionUnitTestProject
         }
 
         [TestMethod]
-        public async Task ValidateOTP()
+        public async Task UAP_ValidateOTP()
         {
             // Arrange
             Guid myGuid = new Guid();
@@ -78,7 +78,8 @@ namespace EnvryptionUnitTestProject
 
 
             // Act
-            System.Threading.Thread.Sleep(31000);
+            await Task.Delay(31000);
+
             OTP03 = await OTPAuthenticator.OTPFromGuid(myGuid);
 
             // Assert
@@ -88,6 +89,5 @@ namespace EnvryptionUnitTestProject
             Assert.AreNotEqual(OTP01, OTP03, "Token should be different after more than 30 sec");
             Assert.IsTrue(await OTPAuthenticator.IsValidOTPFromGuid(myGuid, OTP03), "Token should also be valid");
         }
-
     }
-    }
+}

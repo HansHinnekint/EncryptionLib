@@ -9,7 +9,10 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Button x:Name="testbutton" Content="Test" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="64" Click="testbutton_Click"/>
-        <Button x:Name="exitbutton" Content="Exit" HorizontalAlignment="Stretch" Margin="285,10,10,0" VerticalAlignment="Top" Width="64" Click="exitbutton_Click"/>
+        <Button x:Name="exitbutton" Content="Exit" HorizontalAlignment="Right" Margin="286,10,10,0" VerticalAlignment="Top" Width="64" Click="exitbutton_Click"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Margin="10,47,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="340"/>
+        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Margin="10,84,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="340"/>
+        <TextBox x:Name="textBox3" HorizontalAlignment="Left" Margin="10,121,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="340"/>
 
     </Grid>
 </Page>
