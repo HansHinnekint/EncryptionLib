@@ -115,27 +115,32 @@ namespace EncryptionLibrary
         //-------------------------------------------------------------------------------------------------
         //--- Helper Internal methods
         //-------------------------------------------------------------------------------------------------
-        private DateTime ParseNetworkTime(byte[] rawData)
+        private DateTime ParseNetworkTime(byte[] TheByteArray)
         {
             DateTime TheNetworkTime;
             //Offset to get to the "Transmit Timestamp" field (time at which the reply 
             //departed the server for the client, in 64-bit timestamp format."
-            const byte serverReplyTime = 40;
+            const byte TheServerReplyTime = 40;
 
             //Get the seconds part
-            ulong intPart = BitConverter.ToUInt32(rawData, serverReplyTime);
+            ulong TheIntPart = BitConverter.ToUInt32(TheByteArray, TheServerReplyTime);
 
             //Get the seconds fraction
-            ulong fractPart = BitConverter.ToUInt32(rawData, serverReplyTime + 4);
+            ulong TheFractPart = BitConverter.ToUInt32(TheByteArray, TheServerReplyTime + 4);
 
             //Convert From big-endian to little-endian
-            intPart = SwapEndianness(intPart);
-            fractPart = SwapEndianness(fractPart);
+            TheIntPart = SwapEndianness(TheIntPart);
+            TheFractPart = SwapEndianness(TheFractPart);
 
-            var milliseconds = (intPart * 1000) + ((fractPart * 1000) / 0x100000000L);
+            var TheMilliseconds = (TheIntPart * 1000) + ((TheFractPart * 1000) / 0x100000000L);
 
             //**UTC** time
-            TheNetworkTime = (new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).AddMilliseconds((long)milliseconds);
+            TheNetworkTime = (new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).AddMilliseconds((long)TheMilliseconds);
+
+            //Adapt for empty ByteArray
+            if (DateTime.Equals(TheNetworkTime, new DateTime(1900, 1, 1)))
+                TheNetworkTime = DateTime.UtcNow;
+
             return TheNetworkTime;
         }
 
