@@ -82,10 +82,30 @@ namespace EncryptionLibrary
 
         public string Encrypt(string anUnencryptedString)
         {
+            UInt16 myPos;
+
             var myVector = new byte[16];
             myRandomGenerator.NextBytes(myVector);
 
-            var myCryptogram = myVector.Concat(EncryptFromBuffer(myEncoder.GetBytes(anUnencryptedString), myVector));
+
+            //Encrypt the String, with the Random Vector
+            var myBuffer = EncryptFromBuffer(myEncoder.GetBytes(anUnencryptedString), myVector);
+            var myBufferSize = myBuffer.GetLength(0);
+
+            //Calc a random location whare to put Store the Vetor
+            myPos = Convert.ToUInt16(myRandomGenerator.NextDouble() * (myBufferSize - 1));
+
+            //Convert the Vector location to 2 bytes 
+            var myHeader = BitConverter.GetBytes(myPos);
+
+            //Split the Encrypted buffzer in 2 parts
+            var myFirstPart = myBuffer.Take(myPos);
+            var mySecondPart = myBuffer.Skip(myPos);
+
+            //Combine everything: Header + First Part + Vector + Second Part
+            var myCryptogram = myHeader.Concat(myFirstPart);
+            myCryptogram = myCryptogram.Concat(myVector);
+            myCryptogram = myCryptogram.Concat(mySecondPart);
 
             return Convert.ToBase64String(myCryptogram.ToArray());
         }
@@ -95,14 +115,27 @@ namespace EncryptionLibrary
         //-------------------------------------------------------------------------------------------------
         public string Decrypt(string anEncryptedString)
         {
+            UInt16 myPos;
+
             var myCryptogram = Convert.FromBase64String(anEncryptedString);
-            if (myCryptogram.Length < 17)
+            if (myCryptogram.Length < 19)
             {
                 throw new ArgumentException("Invalid encrypted string, Too Short", "anEncryptedString");
             }
 
-            var myVector = myCryptogram.Take(16).ToArray();
-            var myBuffer = myCryptogram.Skip(16).ToArray();
+            //Get the Location of the Vector
+            var myHeader = myCryptogram.Take(2).ToArray();
+            myPos = BitConverter.ToUInt16(myHeader, 0);
+
+            //Get the First part (before the vector)
+            var myFirstPart = myCryptogram.Skip(2).Take(myPos);
+            //Get the Vector itself
+            var myVector = myCryptogram.Skip(myPos + 2).Take(16).ToArray();
+            //Get the Second part (after the vector)
+            var mySecondPart = myCryptogram.Skip(myPos + 18);
+
+            //Combint the First part + Second Part, so we can decrypt
+            var myBuffer = myFirstPart.Concat(mySecondPart).ToArray();
 
             return myEncoder.GetString(DecryptFromBuffer(myBuffer, myVector));
         }
