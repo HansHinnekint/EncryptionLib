@@ -60,7 +60,7 @@ namespace EncryptionLibrary
         {
             myRandomGenerator = new Random();
             myEncoder = new UTF8Encoding();
-            myKeyArray = Convert.FromBase64String("9F11BCE0+DC17+42CA+BE52+6D9CD15A");
+            myKeyArray = Convert.FromBase64String("Do+Not+Forget+to+Change+this+Now");
 
 #if WINDOWS_UWP
             myCryptoAlgorithm = SymmetricKeyAlgorithmProvider.OpenAlgorithm("AES_CBC_PKCS7");
