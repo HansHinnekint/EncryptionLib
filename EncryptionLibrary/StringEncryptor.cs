@@ -98,7 +98,7 @@ namespace EncryptionLibrary
             //Convert the Vector location to 2 bytes 
             var myHeader = BitConverter.GetBytes(myPos);
 
-            //Split the Encrypted buffzer in 2 parts
+            //Split the Encrypted buffer in 2 parts
             var myFirstPart = myBuffer.Take(myPos);
             var mySecondPart = myBuffer.Skip(myPos);
 
