@@ -175,7 +175,7 @@ namespace EncryptionLibrary
             if (UseNetworkTime)
             {
                 myDTG = DateTimeGenerator.Instance;
-                TheTime = await myDTG.GetNetworkUTCTime();
+                TheTime = await myDTG.GetNTPTime();
             }
             else
             {

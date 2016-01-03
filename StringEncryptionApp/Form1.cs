@@ -24,7 +24,7 @@ namespace StringEncryptionApp
             myDTG = DateTimeGenerator.Instance;
 
             TheLocalTime = DateTime.UtcNow;
-            TheNetworkTime = await myDTG.GetNetworkUTCTime();
+            TheNetworkTime = await myDTG.GetNTPTime();
 
             span = TheNetworkTime.Subtract(TheLocalTime);
 

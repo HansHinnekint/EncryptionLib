@@ -47,13 +47,12 @@ namespace EncryptionLibrary
         }       
         
         //-------------------------------------------------------------------------------------------------
-        //--- Get the time from a public NTP server
+        //--- Get the UTC time from a public NTP server
         //-------------------------------------------------------------------------------------------------
-        public async Task<DateTime> GetNetworkUTCTime()
+        public async Task<DateTime> GetNTPTime()
         {
             const string myNTPServer = "pool.ntp.org";
             DateTime TheNetworkTime;
-
 
             // NTP message size - 16 bytes of the digest (RFC 2030)
             var myNTPDataArray = new byte[48];
