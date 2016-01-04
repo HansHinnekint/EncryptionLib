@@ -89,5 +89,28 @@ namespace EncryptionUnitTestProject_Win
             Assert.IsTrue(await OTPAuthenticator.IsValidOTPFromGuid(myGuid, OTP03), "Token should also be valid");
         }
 
+        [TestMethod]
+        public void CompressDecomPressString()
+        {
+            // Arrange
+            var subject = StringEncryptor.Instance;
+            var originalString = "Testing 123: Add some special characters &é@#'öçà!£$<ù}";
+
+            // Act
+            var encryptedString1 = subject.Encrypt(originalString);
+            var compressedString1 = StringCompressor.CompressString(encryptedString1);
+            var decompressedString1 = StringCompressor.DecompressString(compressedString1);
+            var decryptedString1 = subject.Decrypt(decompressedString1);
+            var compressedString2 = StringCompressor.CompressString(originalString);
+            var decompressedString2 = StringCompressor.DecompressString(compressedString2);
+
+
+
+            // Assert
+            Assert.AreEqual(originalString, decryptedString1, "Compressed and Decrypted string should match original string");
+            //Assert.IsTrue((compressedString1.Length <= encryptedString1.Length), "Compressed Encrypted String should be smaller than the Encrypted string");
+            Assert.AreEqual(originalString, decompressedString2, "Decompressed string should match original string");
+            //Assert.IsTrue((compressedString2.Length <= originalString.Length), "Compressed String should be smaller than the original");
+        }
     }
 }

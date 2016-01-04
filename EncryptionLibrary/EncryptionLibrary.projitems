@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)InfoBlock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InfoBlockConvertor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OTPAuthenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StringCompressor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StringEncryptor.cs" />
   </ItemGroup>
 </Project>
