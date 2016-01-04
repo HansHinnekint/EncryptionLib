@@ -15,7 +15,7 @@ namespace EncryptionLibrary
 {
     /// <summary>
     /// Simple AES encryption/decryption using a random initialization vector
-    /// and prepending it to the crypto text.
+    /// and storing this vector somewhere in the crypto text, prepending the vector location to the text
     /// </summary>
     /// <remarks>Based on multiple answers in http://stackoverflow.com/questions/165808/simple-two-way-encryption-for-c-sharp </remarks>
     /// <remarks>and http://codereview.stackexchange.com/questions/36453/aes-encryption-c-net
