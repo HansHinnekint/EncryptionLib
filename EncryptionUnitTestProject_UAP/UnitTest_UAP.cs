@@ -91,7 +91,7 @@ namespace EncryptionUnitTestProject_UAP
         }
 
         [TestMethod]
-        public void CompressDecomPressString()
+        public void UAP_CompressDecomPressString()
         {
             // Arrange
             var subject = StringEncryptor.Instance;
