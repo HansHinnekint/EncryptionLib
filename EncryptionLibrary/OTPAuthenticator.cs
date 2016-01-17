@@ -67,7 +67,7 @@ namespace EncryptionLibrary
         }
 
         //-------------------------------------------------------------------------------------------------
-        //--- Check if a provided OTP is valid for the proviided GUID (allow 3 past + 3 future ones)
+        //--- Check if a provided OTP is valid for the provided GUID (allow 3 past + 3 future ones)
         //-------------------------------------------------------------------------------------------------
         public static async Task<bool> IsValidOTPFromGuid(Guid TheGuid, int TheOTPToCheck, bool UseNetworkTime = false)
         {
@@ -133,13 +133,31 @@ namespace EncryptionLibrary
             return success;
         }
 
+        //-------------------------------------------------------------------------------------------------
+        //--- XOR the 2 provided GUID values and make it a new GUID (which might not be unique)
+        //-------------------------------------------------------------------------------------------------
 
-    #region Helper Internal methods
+        public static Guid XorTwoGuids(Guid FirstGuid, Guid SecondGuid)
+        {
+            const int BYTECOUNT = 16;
+            byte[] TargetByteArray = new byte[BYTECOUNT];
+            byte[] FirstByteArray = FirstGuid.ToByteArray();
+            byte[] SecondByteArray = SecondGuid.ToByteArray();
 
-    //-------------------------------------------------------------------------------------------------
-    //--- Helper Internal methods
-    //-------------------------------------------------------------------------------------------------
-    private static byte[] StringToBytes(string TheString)
+            for (int i = 0; i < BYTECOUNT; i++)
+            {
+                TargetByteArray[i] = (byte)(FirstByteArray[i] ^ SecondByteArray[i]);
+            }
+            return new Guid(TargetByteArray);
+        }
+
+
+        #region Helper Internal methods
+
+        //-------------------------------------------------------------------------------------------------
+        //--- Helper Internal methods
+        //-------------------------------------------------------------------------------------------------
+        private static byte[] StringToBytes(string TheString)
         {
             string myHexString = TheString;
 

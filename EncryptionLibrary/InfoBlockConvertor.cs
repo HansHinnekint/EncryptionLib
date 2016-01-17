@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace EncryptionLibrary.Data
 {
     /// <summary>
-    /// Simple Class to Convert an Infoblock to an encrypted String and back
+    /// Simple Class to Convert an Infoblock to an Encrypted String and back
     /// </summary>
     public static class InfoBlockConvertor
     {
@@ -12,7 +12,7 @@ namespace EncryptionLibrary.Data
         private static StringEncryptor myStringEncryptor = StringEncryptor.Instance;
 
         //-------------------------------------------------------------------------------------------------
-        //--- Create a 
+        //--- Create an Infoblock object out of an Encrypted String 
         //-------------------------------------------------------------------------------------------------
         public static InfoBlock DecodeFromString(string aString)
         {
@@ -31,6 +31,10 @@ namespace EncryptionLibrary.Data
             }
             return myInfoBlock;
         }
+
+        //-------------------------------------------------------------------------------------------------
+        //--- Create an Encrypted String out of an Infoblock object 
+        //-------------------------------------------------------------------------------------------------
 
         public static string EncodeToString(InfoBlock anInfoBlock)
         {
